@@ -1,0 +1,493 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Attachment {
+  id           Int     @id @default(autoincrement())
+  thumbnail    String?
+  original     String?
+  typeid       Int?
+  typebelongto Type?   @relation(references: [id], fields: [typeid])
+}
+
+model Type {
+  id                Int            @id @default(autoincrement())
+  name              String
+  slug              String         @unique
+  icon              String
+  banners           Banner[]
+  promotionalSlider Attachment[]
+  TypeSettings      TypeSettings[]
+  categories        Category[]
+  Product           Product[]
+}
+
+model Banner {
+  id          Int     @id @default(autoincrement())
+  title       String?
+  description String?
+  image       String
+  type        Type    @relation(fields: [typeId], references: [id])
+  typeId      Int
+  imageId     Int
+
+  @@index([typeId])
+}
+
+model TypeSettings {
+  id               Int                       @id @default(autoincrement())
+  isHome           Boolean
+  layoutType       String
+  productCard      String
+  category         CategorySettings?
+  newArrival       NewArrivalSettings?
+  featuredproducts FeaturedProductsSettings?
+  type             Type                      @relation(fields: [typeId], references: [id])
+  typeId           Int
+
+  @@index([typeId])
+}
+
+model CategorySettings {
+  id             Int          @id @default(autoincrement())
+  enable         Boolean
+  title          String
+  typeSettings   TypeSettings @relation(fields: [typeSettingsId], references: [id])
+  typeSettingsId Int          @unique
+
+  @@index([typeSettingsId])
+}
+
+model NewArrivalSettings {
+  id             Int          @id @default(autoincrement())
+  enable         Boolean
+  title          String
+  typeSettings   TypeSettings @relation(fields: [typeSettingsId], references: [id])
+  typeSettingsId Int          @unique
+
+  @@index([typeSettingsId])
+}
+
+model FeaturedProductsSettings {
+  id             Int          @id @default(autoincrement())
+  enable         Boolean
+  title          String
+  typeSettings   TypeSettings @relation(fields: [typeSettingsId], references: [id])
+  typeSettingsId Int          @unique
+
+  @@index([typeSettingsId])
+}
+
+//categories
+model Category {
+  id              Int               @id @default(autoincrement())
+  name            String
+  slug            String            @unique
+  details         String?
+  image           String?
+  icon            String?
+  imageId         Int?
+  language        String
+  typeId          Int?
+  type            Type?             @relation(fields: [typeId], references: [id])
+  parentId        Int?              @unique
+  parentCategory  Category?         @relation("Parent", fields: [parentId], references: [id])
+  children        Category[]        @relation("Parent")
+  // Childid         Int?
+  // ChildCatogories Category?  @relation("Children", fields: [Childid], references: [id])
+  // children        Category[] @relation("children")
+  ProductCategory ProductCategory[]
+
+  @@index([slug])
+}
+
+model Shop {
+  id          Int       @id @default(autoincrement())
+  // owner_id       Int
+  // owner          User          @relation("owner", fields: [ownerId], references: [id])
+  name        String
+  slug        String    @unique
+  description String?
+  cover_image String?
+  logo        String?
+  // distance    String?  
+  // lat         String?
+  // lng         String?
+  Product     Product[]
+}
+
+// model Balance {
+//   id                    Int         @id @default(autoincrement())
+//   admin_commission_rate Float
+//   shop                  Shop        @relation(fields: [shopId], references: [id])
+//   total_earnings        Int
+//   withdrawn_amount      Int
+//   current_balance       Int
+//   payment_info          PaymentInfo @relation(fields: [paymentInfoId], references: [id])
+
+//   shopId        Int
+//   paymentInfoId Int
+// }
+
+// model PaymentInfo {
+//   id      Int    @id @default(autoincrement())
+//   account String
+//   name    String
+//   email   String
+//   bank    String
+
+//   balance   Balance @relation(fields: [balanceId], references: [id])
+//   balanceId Int
+// }
+
+// model ShopSettings {
+//   id      Int    @id @default(autoincrement())
+//   contact String
+//   website String
+//   shop    Shop   @relation(fields: [shopId], references: [id])
+//   shopId  Int
+// }
+
+//product
+
+enum ProductStatus {
+  PUBLISH
+  DRAFT
+}
+
+enum ProductType {
+  SIMPLE
+  VARIABLE
+}
+
+model BulkPrice {
+  id             Int     @id @default(autoincrement())
+  case           Int
+  price          Decimal
+  por            Decimal
+  productid      Int
+  priceToProduct Product @relation(fields: [productid], references: [id])
+}
+
+model ProductGallery {
+  id           Int     @id @default(autoincrement())
+  name         String  @default("productname")
+  orginal      String
+  productid    Int
+  productImage Product @relation(fields: [productid], references: [id])
+}
+
+model ProductCategory {
+  productid  Int
+  product    Product  @relation(fields: [productid], references: [id])
+  categoryid Int
+  category   Category @relation(fields: [categoryid], references: [id])
+
+  @@id([productid, categoryid])
+}
+
+model Product {
+  id                Int               @id @default(autoincrement())
+  sku               String
+  quantity          Int               @default(0)
+  inin_stock        Int               @default(1)
+  name              String
+  slug              String            @unique
+  status            ProductStatus     @default(PUBLISH)
+  type_id           Int?
+  type              Type?             @relation(fields: [type_id], references: [id])
+  product_type      ProductType
+  rrp               Decimal
+  packsize          String
+  unit              String            @default("1pc(s)")
+  BulkPrice         BulkPrice[]
+  shopid            Int?
+  shop              Shop?             @relation(references: [id], fields: [shopid])
+  is_bestselling    Boolean           @default(false)
+  is_popularproduct Boolean           @default(false)
+  image             String
+  createAt          DateTime          @default(now())
+  updatatedAt       DateTime          @updatedAt
+  ProductGallery    ProductGallery[]
+  in_wishlist       Boolean           @default(false)
+  ProductCategory   ProductCategory[]
+
+  // variations        Variation[]
+  // variation_options VariationOption[]
+  // orders            Order[]
+  // shop_id           Int
+  // shop              Shop                @relation(fields: [shopId], references: [id])
+  // related_products  Product[]
+  // description       String
+  // in_stock          Boolean
+  // is_taxable        Boolean
+  // sale_price        Float?
+  // max_price         Float?
+  // min_price         Float?
+  // sku               String?
+  // gallery           Attachment[]
+  // image             Attachment?         @relation("productimage", fields: [attachmentId], references: [id])
+  // status            ProductStatus
+  // height            String?
+  // length            String?
+  // width             String?
+  // price             Float
+  // quantity          Int
+  // unit              String              @default("1pc")
+  // ratings           Float
+  // in_wishlist       Boolean
+  // my_review         Review[]
+  // language          String?
+  // typeId            Int
+  // shopId            Int
+  // attachmentId      Int?
+  // OrderProductPivot OrderProductPivot[]
+  // OrderFiles        OrderFiles[]
+  // Product           Product?            @relation(fields: [productId], references: [id])
+  // productId         Int?
+}
+
+// model OrderProductPivot {
+//   id                  Int   @id @default(autoincrement())
+//   variation_option_id Int?
+//   order_quantity      Int
+//   unit_price          Float
+//   subtotal            Float
+
+//   order            Order            @relation(fields: [orderId], references: [id])
+//   product          Product          @relation(fields: [productId], references: [id])
+//   variation_option VariationOption? @relation(fields: [variation_optionId], references: [id])
+
+//   orderId            Int
+//   productId          Int
+//   variation_optionId Int?
+// }
+
+// model Variation {
+//   id         Int               @id @default(autoincrement())
+//   title      String
+//   price      Float
+//   sku        String?
+//   is_disable Boolean
+//   sale_price Float?
+//   quantity   Int
+//   options    VariationOption[]
+//   product    Product           @relation(fields: [productId], references: [id])
+//   productId  Int
+// }
+
+// model VariationOption {
+//   id                Int                 @id @default(autoincrement())
+//   name              String
+//   value             String
+//   variation         Variation           @relation(fields: [variationId], references: [id])
+//   variationId       Int
+//   Product           Product?            @relation(fields: [productId], references: [id])
+//   productId         Int?
+//   OrderProductPivot OrderProductPivot[]
+// }
+
+// model File {
+//   id            Int          @id @default(autoincrement())
+//   attachment_id Int
+//   url           String
+//   fileable_id   Int
+//   OrderFiles    OrderFiles[]
+// }
+
+// model User {
+//   id           Int          @id @default(autoincrement())
+//   name         String
+//   email        String       @unique
+//   password     String?
+//   profile      Profile?
+//   shops        Shop[]
+//   managed_shop Shop?        @relation(fields: [shopId], references: [id])
+//   is_active    Boolean      @default(true)
+//   address      Address[]
+//   permissions  Permission[]
+//   wallet       Json? // Consider using a specific type if possible
+//   shopId       Int?
+//   Order        Order[]
+//   Review       Review[]
+//   Shop         Shop?        @relation(fields: [shopId], references: [id])
+// }
+
+// model Permission {
+//   id         Int     @id @default(autoincrement())
+//   name       String?
+//   guard_name String?
+//   users      User[]
+// }
+
+// model Profile {
+//   id           Int         @id @default(autoincrement())
+//   avatar       Attachment? @relation(fields: [attachmentId], references: [id])
+//   bio          String?
+//   socials      Social[]
+//   contact      String?
+//   customer     User        @relation(fields: [customerId], references: [id])
+//   customerId   Int
+//   attachmentId Int?
+// }
+
+// model Social {
+//   id        Int     @id @default(autoincrement())
+//   type      String
+//   link      String
+//   profile   Profile @relation(fields: [profileId], references: [id])
+//   profileId Int
+// }
+
+// //address
+// enum AddressType {
+//   BILLING
+//   SHIPPING
+// }
+
+// model Address {
+//   id       Int         @id @default(autoincrement())
+//   title    String
+//   default  Boolean
+//   type     AddressType
+//   customer User        @relation(fields: [customerId], references: [id])
+//   address  UserAddress @relation(fields: [userAddressId], references: [id])
+
+//   customerId    Int
+//   userAddressId Int
+// }
+
+// model UserAddress {
+//   id             Int     @id @default(autoincrement())
+//   street_address String
+//   country        String
+//   city           String
+//   state          String
+//   zip            String
+//   address        Address @relation(fields: [addressId], references: [id])
+//   addressId      Int
+//   Shop           Shop[]
+//   Order          Order[]
+// }
+
+// //order
+// enum PaymentGatewayType {
+//   STRIPE
+//   CASH_ON_DELIVERY
+//   CASH
+//   FULL_WALLET_PAYMENT
+//   PAYPAL
+//   RAZORPAY
+// }
+
+// enum OrderStatusType {
+//   PENDING
+//   PROCESSING
+//   COMPLETED
+//   CANCELLED
+//   REFUNDED
+//   FAILED
+//   AT_LOCAL_FACILITY
+//   OUT_FOR_DELIVERY
+//   DEFAULT_ORDER_STATUS
+// }
+
+// enum PaymentStatusType {
+//   PENDING
+//   PROCESSING
+//   SUCCESS
+//   FAILED
+//   REVERSAL
+//   CASH_ON_DELIVERY
+//   CASH
+//   WALLET
+//   AWAITING_FOR_APPROVAL
+//   DEFAULT_PAYMENT_STATUS
+// }
+
+// model Order {
+//   id                      Int                 @id @default(autoincrement())
+//   tracking_number         String
+//   customer_id             Int
+//   customer_contact        String
+//   customer                User                @relation(fields: [customerId], references: [id])
+//   parent_order            Order?              @relation("OrderParentChild", fields: [orderId], references: [id])
+//   children                Order[]             @relation("OrderParentChild")
+//   order_status            OrderStatusType
+//   payment_status          PaymentStatusType
+//   amount                  Float
+//   sales_tax               Float
+//   total                   Float
+//   paid_total              Float
+//   payment_id              String?
+//   payment_gateway         PaymentGatewayType
+//   // coupon            Coupon?   
+//   shop                    Shop                @relation(fields: [shopId], references: [id])
+//   discount                Float?
+//   delivery_fee            Float
+//   delivery_time           String
+//   products                Product[]
+//   billing_address         UserAddress         @relation(fields: [userAddressId], references: [id])
+//   shipping_address        UserAddress         @relation(fields: [userAddressId], references: [id])
+//   language                String?
+//   translated_languages    String[]
+//   // payment_intent          PaymentIntent?
+//   altered_payment_gateway String?
+//   customerId              Int
+//   shopId                  Int
+//   OrderProductPivot       OrderProductPivot[]
+//   orderId                 Int?
+//   userAddressId           Int
+//   Review                  Review[]
+// }
+
+// model OrderFiles {
+//   id              Int     @id @default(autoincrement())
+//   purchase_key    String
+//   digital_file_id Int
+//   order_id        Int?
+//   customer_id     Int
+//   file            File    @relation(fields: [fileId], references: [id])
+//   fileable        Product @relation(fields: [fileableId], references: [id])
+//   fileId          Int
+//   fileableId      Int
+// }
+
+// model Review {
+//   id                       Int          @id @default(autoincrement())
+//   rating                   Int
+//   name                     String
+//   comment                  String
+//   shop                     Shop         @relation(fields: [id], references: [id])
+//   order                    Order?       @relation(fields: [orderId], references: [id])
+//   customer                 User         @relation(fields: [customerId], references: [id])
+//   photos                   Attachment[]
+//   user                     User         @relation(fields: [userId], references: [id])
+//   product                  Product      @relation(fields: [productId], references: [id])
+//   // feedbacks               Feedback[]
+//   // my_feedback             Feedback?
+//   positive_feedbacks_count Int
+//   negative_feedbacks_count Int
+//   user_id                  Int
+//   product_id               Int
+//   // abusive_reports         Report[]
+//   shop_id                  String
+//   variation_option_id      String
+//   abusive_reports_count    Int?
+
+//   customerId Int
+//   orderId    Int?
+//   userId     Int
+//   productId  Int
+// }

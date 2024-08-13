@@ -1,0 +1,11 @@
+      {
+        "id": 54,
+        "title": "Groceries Delivered in 90 Minute",
+        "type_id": 1,
+        "description": "Get your healthy foods & snacks delivered at your doorsteps all day everyday",
+        "image": {
+          "id": 907,
+          "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/conversions/grocery-thumbnail.jpg",
+          "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/grocery.png"
+        }
+      }

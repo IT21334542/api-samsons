@@ -1,0 +1,188 @@
+[
+  {
+    "id": 1,
+    "name": "Rizla 1oz Hinge Tin & Papers",
+    "packsize":"12 papers X 5",
+    "slug": "rizla-1oz-hinge-tin-and-papers",
+    "description": "Juice is a drink made from the extraction or pressing of the natural liquid contained in fruit and vegetables. It can also refer to liquids that are flavored with concentrate or other biological food sources, such as meat or seafood, such as clam juice",
+    "type_id": 12,
+    "price": 10,
+    "rrp":25,
+    "bulkprice":[
+      {
+        "case":1,
+        "price": 20,
+        "por":"5%"
+      },
+      {
+        "case":5,
+        "price": 10,
+        "por":"10%"
+      }
+    ],
+    "shop_id": 5,
+    "sale_price": null,
+    "language": "en",
+    "min_price": 1.8,
+    "max_price": 1.8,
+    "sku": "0001",
+    "quantity": 50,
+    "in_stock": 1,
+    "is_taxable": 0,
+    "shipping_class_id": null,
+    "status": "publish",
+    "product_type": "simple",
+    "unit": "1pc(s)",
+    "height": null,
+    "width": null,
+    "length": null,
+    "image": {
+      "id": "490",
+      "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/489/Juice-5_eqrtuu.jpg",
+      "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/489/conversions/Juice-5_eqrtuu-thumbnail.jpg"
+    },
+    "video": null,
+    "gallery": [
+      {
+        "id": "605",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/604/Organic-orange-juice-1.png",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/604/conversions/Organic-orange-juice-1-thumbnail.jpg"
+      },
+      {
+        "id": "606",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/605/Organic-orange-juice.png",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/605/conversions/Organic-orange-juice-thumbnail.jpg"
+      },
+      {
+        "id": "795",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/793/Juice-5_eqrtuu.jpg",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/793/conversions/Juice-5_eqrtuu-thumbnail.jpg"
+      },
+      {
+        "id": "796",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/794/Juice-1_lx8xnf.jpg",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/794/conversions/Juice-1_lx8xnf-thumbnail.jpg"
+      }
+    ],
+    "deleted_at": null,
+    "created_at": "2021-03-14T09:13:11.000000Z",
+    "updated_at": "2021-12-23T17:06:55.000000Z",
+    "author_id": null,
+    "manufacturer_id": null,
+    "is_digital": 0,
+    "is_external": 0,
+    "external_product_url": null,
+    "external_product_button_text": null,
+    "ratings": 4,
+    "total_reviews": 1,
+    "rating_count": [
+      {
+        "rating": 4,
+        "total": 1,
+        "positive_feedbacks_count": 0,
+        "negative_feedbacks_count": 0,
+        "my_feedback": null,
+        "abusive_reports_count": 0
+      }
+    ],
+    "my_review": null,
+    "in_wishlist": false,
+    "blocked_dates": [],
+    "translated_languages": ["en"],
+    "categories": [
+      {
+        "id": 213,
+        "name": "Vaping",
+        "slug": "vaping",
+        "icon": "FruitsVegetable",
+        "language": "en",
+        "image": {
+      "original":"https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/935/Vegetable.jpg"
+    },
+        "details": null,
+        "parent": null,
+        "type_id": 12,
+        "created_at": "2021-03-13T14:34:33.000000Z",
+        "updated_at": "2021-03-13T14:34:33.000000Z",
+        "deleted_at": null,
+        "parent_id": null,
+        "translated_languages": ["en"],
+        "pivot": {
+          "product_id": 1,
+          "category_id": 213
+        }
+      }
+    ],
+    "shop": {
+      "id": 5,
+      "owner_id": 1,
+      "name": "Bakery Shop",
+      "slug": "bakery-shop",
+      "description": "The bakery shop is the best shop around the city. This is being run under the store owner and our aim is to provide fresh and quality product and hassle free customer service.",
+      "cover_image": {
+        "id": "895",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/893/Untitled-5.jpg",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/893/conversions/Untitled-5-thumbnail.jpg"
+      },
+      "logo": {
+        "id": "892",
+        "original": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/890/bakery.png",
+        "thumbnail": "https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/890/conversions/bakery-thumbnail.jpg"
+      },
+      "is_active": 1,
+      "address": {
+        "zip": "27801",
+        "city": "Rocky Mount",
+        "state": "Carolina",
+        "country": "USA",
+        "street_address": "4422  Fort Street"
+      },
+      "settings": {
+        "contact": "12902232121",
+        "socials": [
+          {
+            "url": "https://www.facebook.com/",
+            "icon": "FacebookIcon"
+          },
+          {
+            "url": "https://www.instagram.com/",
+            "icon": "InstagramIcon"
+          }
+        ],
+        "website": "https://redq.io/",
+        "location": {
+          "lat": 40.7315115,
+          "lng": -73.99582730000002,
+          "city": "New York",
+          "state": "NY",
+          "country": "United States",
+          "formattedAddress": "Washington Mews, New York, NY, USA"
+        }
+      },
+      "created_at": "2021-06-27T03:48:11.000000Z",
+      "updated_at": "2021-07-08T09:23:37.000000Z"
+    },
+    "type": {
+      "id": 12,
+      "name": "Samson",
+      "settings": {
+      "isHome": false,
+      "layoutType": "samsonsproduct",
+      "productCard": "argon"
+    },
+      "slug": "samsons",
+      "language": "en",
+      "icon": "Bakery",
+      "promotional_sliders": null,
+      "created_at": "2021-03-08T07:18:46.000000Z",
+      "updated_at": "2021-08-18T13:34:28.000000Z",
+      "translated_languages": ["en"]
+    },
+    "variations": [],
+    "metas": [],
+    "manufacturer": null,
+    "variation_options": [],
+    "tags": [],
+    "author": null
+  }
+]
