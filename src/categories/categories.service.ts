@@ -89,7 +89,8 @@ export class CategoriesService {
       children:true
     },
    })
-   if (parent === 'null') {
+   if (parent == 'null') {
+   
     Catos = await this.prisma.category.findMany({
       include:{
         type:true,

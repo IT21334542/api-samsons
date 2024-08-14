@@ -36,7 +36,7 @@ export class UploadsController {
       return new Promise((resolve:any, reject) => {
         const d = new Date();
 
-        const fileName = `file.originalname_${d.getUTCDate}`;
+        const fileName = `${file.originalname}_${file.size}`;
         const filePath = `${folderName}/${fileName}`;
 
 
